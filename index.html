@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celebration Quest: Days Around Us</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Fredoka & Inter for child-friendly typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        questBlue: '#0284c7',
+                        questTurquoise: '#06b6d4',
+                        questLightBg: '#e0f2fe',
+                        questDarkBg: '#0f172a',
+                        questYellow: '#f59e0b',
+                        questPink: '#ec4899',
+                        questGreen: '#10b981',
+                        questPurple: '#8b5cf6',
+                    },
+                    fontFamily: {
+                        fredoka: ['Fredoka', 'sans-serif'],
+                        inter: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0284c7 0%, #06b6d4 50%, #38bdf8 100%);
+            min-height: 100vh;
+        }
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Fredoka', sans-serif;
+        }
+        /* Custom Pulse & Float Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(3deg); }
+        }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 0.4; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+        .animate-pulse-ring {
+            animation: pulse-ring 2s infinite ease-in-out;
+        }
+        /* Card Hover Effects */
+        .card-festive {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .card-festive:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e0f2fe;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0284c7;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="text-slate-800 flex flex-col min-h-screen relative overflow-x-hidden">
+
+    <!-- Floating Background Decor Shapes (Celebration Themes) -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0 opacity-25">
+        <div class="absolute top-5 left-5 text-4xl animate-float"><i class="fa-solid fa-star text-yellow-300"></i></div>
+        <div class="absolute top-20 right-12 text-5xl animate-float" style="animation-delay: 1s;"><i class="fa-solid fa-moon text-yellow-200"></i></div>
+        <div class="absolute bottom-12 left-10 text-5xl animate-float" style="animation-delay: 2s;"><i class="fa-solid fa-gift text-pink-300"></i></div>
+        <div class="absolute bottom-20 right-10 text-4xl animate-float" style="animation-delay: 1.5s;"><i class="fa-solid fa-lightbulb text-yellow-300"></i></div>
+        <div class="absolute top-1/2 left-4 text-3xl animate-float" style="animation-delay: 2.5s;"><i class="fa-solid fa-paper-plane text-white"></i></div>
+        <div class="absolute top-1/3 right-6 text-4xl animate-float" style="animation-delay: 0.5s;"><i class="fa-solid fa-cake-candles text-amber-300"></i></div>
+    </div>
+
+    <!-- MAIN HEADER NAVIGATION -->
+    <header class="sticky top-0 z-50 bg-sky-900/90 backdrop-blur-md text-white shadow-lg border-b-4 border-yellow-400">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-2">
+            <!-- Logo & Title -->
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('home')">
+                <div class="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center text-sky-900 font-bold text-2xl shadow-inner animate-bounce">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-bold tracking-wide text-yellow-300">Celebration Quest</h1>
+                    <p class="text-xs text-sky-200 font-medium">Days Around Us • Year 5 English</p>
+                </div>
+            </div>
+
+            <!-- Global Navigation Buttons -->
+            <nav class="flex items-center gap-2 sm:gap-3">
+                <button onclick="navigateTo('home')" class="bg-sky-700 hover:bg-sky-600 text-white font-semibold px-3 py-2 rounded-xl text-sm transition flex items-center gap-2 border border-sky-400 shadow">
+                    <i class="fa-solid fa-house"></i>
+                    <span class="hidden sm:inline">Home</span>
+                </button>
+                <button onclick="navigateTo('mission2')" class="bg-amber-500 hover:bg-amber-400 text-white font-semibold px-3 py-2 rounded-xl text-sm transition flex items-center gap-2 border border-amber-300 shadow">
+                    <i class="fa-solid fa-comments"></i>
+                    <span>Mission 2</span>
+                </button>
+                <button onclick="navigateTo('gallery')" class="bg-teal-500 hover:bg-teal-400 text-white font-semibold px-3 py-2 rounded-xl text-sm transition flex items-center gap-2 border border-teal-300 shadow">
+                    <i class="fa-solid fa-compact-disc"></i>
+                    <span>Audio Gallery</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-grow max-w-6xl w-full mx-auto p-4 md:p-6 z-10">
+
+        <!-- ================= SECTION 0: HOME LANDING ================= -->
+        <section id="sec-home" class="space-y-6">
+            <!-- Hero Banner -->
+            <div class="bg-white/95 rounded-3xl p-6 md:p-10 shadow-2xl border-4 border-yellow-300 text-center relative overflow-hidden">
+                <div class="absolute -top-10 -left-10 w-32 h-32 bg-yellow-200 rounded-full blur-2xl opacity-50"></div>
+                <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-sky-200 rounded-full blur-2xl opacity-50"></div>
+
+                <div class="relative z-10 max-w-3xl mx-auto space-y-4">
+                    <span class="bg-sky-100 text-sky-800 text-xs md:text-sm font-bold px-4 py-1.5 rounded-full inline-block border border-sky-300 uppercase tracking-wider">
+                        <i class="fa-solid fa-graduation-cap mr-1"></i> CEFR A2 Listening & Speaking Package
+                    </span>
+                    <h2 class="text-3xl md:text-5xl font-extrabold text-sky-900 leading-tight">
+                        Welcome to <span class="text-amber-500 underline decoration-yellow-400">Celebration Quest!</span> 🎉
+                    </h2>
+                    <p class="text-base md:text-lg text-slate-600 font-medium leading-relaxed">
+                        Record your English speaking conversations with your buddy and store them in your Audio Gallery!
+                    </p>
+
+                    <div class="pt-4 flex flex-wrap justify-center gap-4">
+                        <button onclick="navigateTo('mission2')" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-600 hover:to-yellow-500 text-slate-900 font-bold px-8 py-4 rounded-2xl text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition flex items-center gap-3">
+                            <i class="fa-solid fa-microphone text-2xl"></i> Start Recording Now!
+                        </button>
+                        <button onclick="navigateTo('gallery')" class="bg-white hover:bg-slate-50 text-sky-800 border-2 border-sky-500 font-bold px-6 py-4 rounded-2xl text-lg shadow-md hover:shadow-lg transition flex items-center gap-2">
+                            <i class="fa-solid fa-circle-play"></i> View Audio Gallery
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Card 1 -->
+                <div onclick="navigateTo('mission2')" class="bg-white/95 rounded-2xl p-6 shadow-xl border-t-4 border-amber-500 card-festive cursor-pointer">
+                    <div class="w-14 h-14 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-2xl mb-4 font-bold shadow-inner">
+                        <i class="fa-solid fa-microphone"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">1. Record Audio</h3>
+                    <p class="text-sm text-slate-600">Register your pair details and record your speaking conversation together!</p>
+                </div>
+                <!-- Card 2 -->
+                <div onclick="navigateTo('gallery')" class="bg-white/95 rounded-2xl p-6 shadow-xl border-t-4 border-teal-500 card-festive cursor-pointer">
+                    <div class="w-14 h-14 bg-teal-100 text-teal-600 rounded-2xl flex items-center justify-center text-2xl mb-4 font-bold shadow-inner">
+                        <i class="fa-solid fa-photo-film"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">2. Audio Gallery</h3>
+                    <p class="text-sm text-slate-600">Listen back to your saved recordings, check your metadata, and showcase your speaking skills!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 1: MISSION 2 – SPEAK AND SHARE ================= -->
+        <section id="sec-mission2" class="space-y-6 hidden">
+            
+            <!-- STEP 1: REGISTRATION PANEL -->
+            <div id="step-registration" class="bg-white/95 rounded-3xl p-6 md:p-8 shadow-2xl border-4 border-sky-400">
+                <div class="max-w-xl mx-auto space-y-5">
+                    <div class="text-center space-y-2">
+                        <div class="inline-block p-3 bg-sky-100 rounded-full text-sky-700 text-3xl mb-1">
+                            <i class="fa-solid fa-user-group"></i>
+                        </div>
+                        <h2 class="text-2xl md:text-3xl font-bold text-sky-900">Ready to Speak and Share?</h2>
+                        <p class="text-sm text-slate-600">Please enter your details before starting your speaking mission.</p>
+                    </div>
+
+                    <form id="regForm" onsubmit="handleRegistrationSubmit(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Pupil's Full Name <span class="text-red-500">*</span></label>
+                            <input type="text" id="pupilName" required placeholder="e.g. Aina Amanda" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-sky-500 focus:outline-none transition font-medium">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Partner's Full Name <span class="text-red-500">*</span></label>
+                            <input type="text" id="partnerName" required placeholder="e.g. Ravi Kumar" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-sky-500 focus:outline-none transition font-medium">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Class / Year <span class="text-red-500">*</span></label>
+                            <input type="text" id="pupilClass" required placeholder="e.g. 5 Cemerlang" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-sky-500 focus:outline-none transition font-medium">
+                        </div>
+                        <button type="submit" class="w-full bg-gradient-to-r from-sky-600 to-teal-500 hover:from-sky-700 hover:to-teal-600 text-white font-bold py-3.5 rounded-xl shadow-md text-base transition transform active:scale-95 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-rocket"></i> Start Speaking Mission
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- MAIN MISSION CONTENT (Hidden until registered) -->
+            <div id="step-mission-content" class="space-y-6 hidden">
+
+                <!-- Welcome Badge & Active User Bar -->
+                <div class="bg-gradient-to-r from-sky-900 to-teal-800 text-white p-4 rounded-2xl shadow-lg flex flex-wrap items-center justify-between gap-3 border border-sky-400">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-yellow-400 rounded-full text-slate-900 flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-sky-200 uppercase font-semibold tracking-wider">Active Pair Team</p>
+                            <h4 id="displayPairNames" class="font-bold text-yellow-300 text-base md:text-lg">Pupil & Partner</h4>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span id="displayClassBadge" class="bg-sky-700 text-sky-100 text-xs px-3 py-1 rounded-full font-bold">Class: 5 Cemerlang</span>
+                        <button onclick="editPupilInfo()" class="bg-sky-600 hover:bg-sky-500 text-xs px-3 py-1 rounded-full text-white font-semibold transition">
+                            <i class="fa-solid fa-pen-to-square mr-1"></i>Edit
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Banner Message -->
+                <div id="regSuccessBanner" class="bg-teal-100 border-l-4 border-teal-500 text-teal-800 p-4 rounded-xl shadow flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-circle-check text-2xl text-teal-600"></i>
+                        <p class="font-semibold text-sm md:text-base">Great! You and your partner are ready for the Celebration Quest!</p>
+                    </div>
+                    <button onclick="document.getElementById('regSuccessBanner').remove()" class="text-teal-600 hover:text-teal-800 text-sm"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+
+                <!-- AUDIO RECORDING FUNCTION -->
+                <div class="bg-white/95 rounded-3xl p-6 md:p-8 shadow-2xl border-4 border-pink-400">
+                    <div class="text-center space-y-2 mb-6">
+                        <h3 class="text-2xl font-bold text-slate-800">Record Your Conversation</h3>
+                        <p class="text-sm text-slate-600">Press Start Recording when you and your partner are ready to talk!</p>
+                    </div>
+
+                    <!-- Recording Visualizer Box -->
+                    <div class="bg-slate-900 text-white rounded-2xl p-6 text-center space-y-4 max-w-xl mx-auto shadow-inner relative overflow-hidden">
+                        
+                        <!-- Pulse Mic Graphic -->
+                        <div class="relative w-24 h-24 mx-auto flex items-center justify-center">
+                            <div id="micPulseRing" class="absolute inset-0 rounded-full bg-red-500 opacity-0 transition-opacity"></div>
+                            <div id="micIconBg" class="w-20 h-20 bg-slate-800 rounded-full flex items-center justify-center text-3xl text-slate-400 border-2 border-slate-700 z-10 transition">
+                                <i class="fa-solid fa-microphone" id="micIcon"></i>
+                            </div>
+                        </div>
+
+                        <!-- Timer & Status -->
+                        <div class="space-y-1">
+                            <div id="recordingTimer" class="font-mono text-4xl font-bold tracking-widest text-yellow-400">00:00</div>
+                            <p id="recordingStatus" class="text-xs uppercase font-bold text-slate-400 tracking-wider">Status: Ready to Record</p>
+                        </div>
+
+                        <!-- Playback Preview Player (Hidden initially) -->
+                        <div id="audioPreviewContainer" class="hidden space-y-2 pt-2 border-t border-slate-800">
+                            <p class="text-xs font-semibold text-teal-300">Audio Playback Preview</p>
+                            <audio id="audioPreview" controls class="w-full rounded-lg bg-slate-800"></audio>
+                        </div>
+                    </div>
+
+                    <!-- Recording Action Control Buttons -->
+                    <div class="max-w-xl mx-auto mt-6 flex flex-wrap justify-center gap-3">
+                        <button id="btnStartRec" onclick="startRecording()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-5 py-3 rounded-xl shadow transition flex items-center gap-2">
+                            <i class="fa-solid fa-play"></i> Start Recording
+                        </button>
+                        <button id="btnPauseRec" onclick="pauseRecording()" disabled class="bg-amber-500 hover:bg-amber-600 opacity-50 cursor-not-allowed text-white font-bold px-5 py-3 rounded-xl shadow transition flex items-center gap-2">
+                            <i class="fa-solid fa-pause"></i> Pause
+                        </button>
+                        <button id="btnResumeRec" onclick="resumeRecording()" disabled class="bg-sky-500 hover:bg-sky-600 opacity-50 cursor-not-allowed text-white font-bold px-5 py-3 rounded-xl shadow transition flex items-center gap-2 hidden">
+                            <i class="fa-solid fa-play-pause"></i> Resume
+                        </button>
+                        <button id="btnStopRec" onclick="stopRecording()" disabled class="bg-red-500 hover:bg-red-600 opacity-50 cursor-not-allowed text-white font-bold px-5 py-3 rounded-xl shadow transition flex items-center gap-2">
+                            <i class="fa-solid fa-square"></i> Stop
+                        </button>
+                    </div>
+
+                    <!-- Save & Re-record Actions -->
+                    <div id="saveControls" class="max-w-xl mx-auto mt-4 flex flex-wrap justify-center gap-3 hidden border-t pt-4 border-slate-200">
+                        <button id="btnReRecord" onclick="resetRecordingState()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-5 py-3 rounded-xl transition flex items-center gap-2">
+                            <i class="fa-solid fa-rotate-left"></i> Re-record
+                        </button>
+                        <button id="btnSaveRec" onclick="saveRecordingToGallery()" class="bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition flex items-center gap-2">
+                            <i class="fa-solid fa-floppy-disk"></i> Save Recording
+                        </button>
+                    </div>
+
+                    <!-- Notification Feedback Alert -->
+                    <div id="recordingFeedback" class="max-w-xl mx-auto mt-4 hidden p-4 rounded-2xl text-center font-bold text-sm shadow"></div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= SECTION 2: AUDIO GALLERY ================= -->
+        <section id="sec-gallery" class="space-y-6 hidden">
+            <div class="bg-white/95 rounded-3xl p-6 md:p-8 shadow-2xl border-4 border-teal-400">
+                
+                <div class="flex flex-wrap justify-between items-center gap-4 mb-6 border-b pb-4 border-slate-200">
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-bold text-sky-900 flex items-center gap-3">
+                            <i class="fa-solid fa-compact-disc text-teal-500"></i> Audio Gallery
+                        </h2>
+                        <p class="text-sm text-slate-600">Listen to all speaking recordings saved during your Celebration Quest!</p>
+                    </div>
+                    <button onclick="navigateTo('mission2')" class="bg-amber-500 hover:bg-amber-600 text-white font-bold px-4 py-2 rounded-xl text-sm transition shadow flex items-center gap-2">
+                        <i class="fa-solid fa-plus"></i> New Recording
+                    </button>
+                </div>
+
+                <!-- Recordings Grid -->
+                <div id="galleryList" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Dynamic audio cards inserted here -->
+                </div>
+
+                <!-- Empty State Display -->
+                <div id="galleryEmptyState" class="text-center py-12 space-y-3 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200">
+                    <div class="text-5xl text-slate-300"><i class="fa-solid fa-microphone-slash"></i></div>
+                    <h3 class="text-lg font-bold text-slate-600">No Audio Recordings Found</h3>
+                    <p class="text-xs text-slate-400 max-w-sm mx-auto">Complete Mission 2 with your partner and save your recording to see it listed here!</p>
+                    <button onclick="navigateTo('mission2')" class="bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition inline-block">
+                        Go to Mission 2
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-sky-950 text-sky-200 py-4 px-4 text-center text-xs mt-auto z-10 border-t-2 border-sky-800">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <p>Celebration Quest: Days Around Us • Primary Year 5 English Module</p>
+            <p class="text-sky-400">Aligned with CEFR A2 Listening & Speaking Standards</p>
+        </div>
+    </footer>
+
+    <!-- APP JAVASCRIPT LOGIC -->
+    <script>
+        /* ================= STATE MANAGEMENT ================= */
+        const APP_STATE = {
+            currentSection: 'home',
+            user: {
+                pupilName: '',
+                partnerName: '',
+                class: '',
+                isRegistered: false
+            },
+            recordings: [],
+            mediaRecorder: null,
+            audioChunks: [],
+            recordingStartTime: null,
+            timerInterval: null,
+            recordedBlob: null,
+            recordedAudioUrl: null,
+            recordingDurationSec: 0,
+            isPaused: false
+        };
+
+        /* ================= NAVIGATION LOGIC ================= */
+        function navigateTo(sectionId) {
+            APP_STATE.currentSection = sectionId;
+            const sections = ['home', 'mission2', 'gallery'];
+            
+            sections.forEach(sec => {
+                const el = document.getElementById(`sec-${sec}`);
+                if (sec === sectionId) {
+                    el.classList.remove('hidden');
+                } else {
+                    el.classList.add('hidden');
+                }
+            });
+
+            // Scroll smoothly to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (sectionId === 'gallery') {
+                renderGallery();
+            }
+        }
+
+        /* ================= REGISTRATION HANDLER ================= */
+        function handleRegistrationSubmit(e) {
+            e.preventDefault();
+            const pupilName = document.getElementById('pupilName').value.trim();
+            const partnerName = document.getElementById('partnerName').value.trim();
+            const pupilClass = document.getElementById('pupilClass').value.trim();
+
+            if (!pupilName || !partnerName || !pupilClass) {
+                alert("Please fill in all fields before starting.");
+                return;
+            }
+
+            APP_STATE.user.pupilName = pupilName;
+            APP_STATE.user.partnerName = partnerName;
+            APP_STATE.user.class = pupilClass;
+            APP_STATE.user.isRegistered = true;
+
+            // Update UI elements
+            document.getElementById('displayPairNames').innerText = `${pupilName} & ${partnerName}`;
+            document.getElementById('displayClassBadge').innerText = `Class: ${pupilClass}`;
+
+            document.getElementById('step-registration').classList.add('hidden');
+            document.getElementById('step-mission-content').classList.remove('hidden');
+        }
+
+        function editPupilInfo() {
+            document.getElementById('step-registration').classList.remove('hidden');
+            document.getElementById('step-mission-content').classList.add('hidden');
+        }
+
+        /* ================= AUDIO RECORDING SYSTEM (MediaRecorder API) ================= */
+        async function startRecording() {
+            if (!APP_STATE.user.isRegistered) {
+                alert("Please fill in pupil details first!");
+                return;
+            }
+
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                APP_STATE.audioChunks = [];
+                APP_STATE.mediaRecorder = new MediaRecorder(stream);
+
+                APP_STATE.mediaRecorder.ondataavailable = event => {
+                    if (event.data.size > 0) {
+                        APP_STATE.audioChunks.push(event.data);
+                    }
+                };
+
+                APP_STATE.mediaRecorder.onstop = () => {
+                    const blob = new Blob(APP_STATE.audioChunks, { type: 'audio/webm' });
+                    APP_STATE.recordedBlob = blob;
+                    APP_STATE.recordedAudioUrl = URL.createObjectURL(blob);
+                    
+                    // Set preview player src
+                    const audioPreview = document.getElementById('audioPreview');
+                    audioPreview.src = APP_STATE.recordedAudioUrl;
+                    document.getElementById('audioPreviewContainer').classList.remove('hidden');
+                    document.getElementById('saveControls').classList.remove('hidden');
+                };
+
+                APP_STATE.mediaRecorder.start();
+                APP_STATE.recordingStartTime = Date.now();
+                APP_STATE.recordingDurationSec = 0;
+                APP_STATE.isPaused = false;
+
+                startTimer();
+                updateRecordingUIState('recording');
+
+            } catch (err) {
+                console.error("Microphone access error:", err);
+                showRecordingFeedback("Microphone access denied or unsupported on this device.", "error");
+            }
+        }
+
+        function pauseRecording() {
+            if (APP_STATE.mediaRecorder && APP_STATE.mediaRecorder.state === 'recording') {
+                APP_STATE.mediaRecorder.pause();
+                APP_STATE.isPaused = true;
+                clearInterval(APP_STATE.timerInterval);
+                updateRecordingUIState('paused');
+            }
+        }
+
+        function resumeRecording() {
+            if (APP_STATE.mediaRecorder && APP_STATE.mediaRecorder.state === 'paused') {
+                APP_STATE.mediaRecorder.resume();
+                APP_STATE.isPaused = false;
+                startTimer();
+                updateRecordingUIState('recording');
+            }
+        }
+
+        function stopRecording() {
+            if (APP_STATE.mediaRecorder && (APP_STATE.mediaRecorder.state === 'recording' || APP_STATE.mediaRecorder.state === 'paused')) {
+                APP_STATE.mediaRecorder.stop();
+                // Stop microphone track to release icon hardware
+                APP_STATE.mediaRecorder.stream.getTracks().forEach(track => track.stop());
+                clearInterval(APP_STATE.timerInterval);
+                updateRecordingUIState('stopped');
+            }
+        }
+
+        function resetRecordingState() {
+            if (APP_STATE.mediaRecorder && APP_STATE.mediaRecorder.state !== 'inactive') {
+                APP_STATE.mediaRecorder.stop();
+            }
+            clearInterval(APP_STATE.timerInterval);
+            APP_STATE.audioChunks = [];
+            APP_STATE.recordedBlob = null;
+            APP_STATE.recordedAudioUrl = null;
+            APP_STATE.recordingDurationSec = 0;
+            APP_STATE.isPaused = false;
+
+            document.getElementById('recordingTimer').innerText = '00:00';
+            document.getElementById('audioPreviewContainer').classList.add('hidden');
+            document.getElementById('saveControls').classList.add('hidden');
+            document.getElementById('recordingFeedback').classList.add('hidden');
+
+            updateRecordingUIState('ready');
+        }
+
+        function startTimer() {
+            clearInterval(APP_STATE.timerInterval);
+            APP_STATE.timerInterval = setInterval(() => {
+                if (!APP_STATE.isPaused) {
+                    APP_STATE.recordingDurationSec++;
+                    const mins = String(Math.floor(APP_STATE.recordingDurationSec / 60)).padStart(2, '0');
+                    const secs = String(APP_STATE.recordingDurationSec % 60).padStart(2, '0');
+                    document.getElementById('recordingTimer').innerText = `${mins}:${secs}`;
+                }
+            }, 1000);
+        }
+
+        function updateRecordingUIState(state) {
+            const btnStart = document.getElementById('btnStartRec');
+            const btnPause = document.getElementById('btnPauseRec');
+            const btnResume = document.getElementById('btnResumeRec');
+            const btnStop = document.getElementById('btnStopRec');
+            const micRing = document.getElementById('micPulseRing');
+            const micBg = document.getElementById('micIconBg');
+            const statusText = document.getElementById('recordingStatus');
+
+            if (state === 'recording') {
+                btnStart.disabled = true;
+                btnStart.classList.add('opacity-50', 'cursor-not-allowed');
+
+                btnPause.disabled = false;
+                btnPause.classList.remove('opacity-50', 'cursor-not-allowed', 'hidden');
+
+                btnResume.classList.add('hidden');
+
+                btnStop.disabled = false;
+                btnStop.classList.remove('opacity-50', 'cursor-not-allowed');
+
+                micRing.classList.remove('opacity-0');
+                micRing.classList.add('animate-pulse-ring');
+                micBg.classList.remove('text-slate-400');
+                micBg.classList.add('text-red-500', 'border-red-500');
+
+                statusText.innerText = "Status: Recording Conversation...";
+                statusText.className = "text-xs uppercase font-bold text-red-400 tracking-wider";
+            } else if (state === 'paused') {
+                btnPause.classList.add('hidden');
+                btnResume.classList.remove('hidden');
+                btnResume.disabled = false;
+                btnResume.classList.remove('opacity-50', 'cursor-not-allowed');
+
+                micRing.classList.add('opacity-0');
+                micRing.classList.remove('animate-pulse-ring');
+                micBg.classList.remove('text-red-500');
+                micBg.classList.add('text-amber-400');
+
+                statusText.innerText = "Status: Recording Paused";
+                statusText.className = "text-xs uppercase font-bold text-amber-400 tracking-wider";
+            } else if (state === 'stopped') {
+                btnStart.disabled = false;
+                btnStart.classList.remove('opacity-50', 'cursor-not-allowed');
+
+                btnPause.disabled = true;
+                btnPause.classList.add('opacity-50', 'cursor-not-allowed');
+
+                btnResume.classList.add('hidden');
+
+                btnStop.disabled = true;
+                btnStop.classList.add('opacity-50', 'cursor-not-allowed');
+
+                micRing.classList.add('opacity-0');
+                micRing.classList.remove('animate-pulse-ring');
+                micBg.className = "w-20 h-20 bg-slate-800 rounded-full flex items-center justify-center text-3xl text-emerald-400 border-2 border-emerald-500 z-10 transition";
+
+                statusText.innerText = "Status: Recording Completed";
+                statusText.className = "text-xs uppercase font-bold text-emerald-400 tracking-wider";
+            } else if (state === 'ready') {
+                btnStart.disabled = false;
+                btnStart.classList.remove('opacity-50', 'cursor-not-allowed');
+
+                btnPause.disabled = true;
+                btnPause.classList.add('opacity-50', 'cursor-not-allowed', 'hidden');
+
+                btnResume.classList.add('hidden');
+
+                btnStop.disabled = true;
+                btnStop.classList.add('opacity-50', 'cursor-not-allowed');
+
+                micRing.classList.add('opacity-0');
+                micRing.classList.remove('animate-pulse-ring');
+                micBg.className = "w-20 h-20 bg-slate-800 rounded-full flex items-center justify-center text-3xl text-slate-400 border-2 border-slate-700 z-10 transition";
+
+                statusText.innerText = "Status: Ready to Record";
+                statusText.className = "text-xs uppercase font-bold text-slate-400 tracking-wider";
+            }
+        }
+
+        /* ================= SAVE RECORDING & METADATA ================= */
+        function saveRecordingToGallery() {
+            if (!APP_STATE.recordedAudioUrl) {
+                alert("No audio recorded to save!");
+                return;
+            }
+
+            const mins = String(Math.floor(APP_STATE.recordingDurationSec / 60)).padStart(2, '0');
+            const secs = String(APP_STATE.recordingDurationSec % 60).padStart(2, '0');
+            const formattedDuration = `${mins}:${secs}`;
+            const currentDate = new Date().toLocaleDateString('en-MY', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            // Naming format: Mission 2 – [Pupil Name] & [Partner Name]
+            const title = `Mission 2 – ${APP_STATE.user.pupilName} & ${APP_STATE.user.partnerName}`;
+
+            const recordingItem = {
+                id: Date.now(),
+                title: title,
+                pupilName: APP_STATE.user.pupilName,
+                partnerName: APP_STATE.user.partnerName,
+                class: APP_STATE.user.class,
+                activityName: "Mission 2: Speak and Share",
+                date: currentDate,
+                duration: formattedDuration,
+                audioUrl: APP_STATE.recordedAudioUrl
+            };
+
+            APP_STATE.recordings.unshift(recordingItem);
+
+            showRecordingFeedback("Wonderful! Your speaking conversation has been saved to your Audio Gallery!", "success");
+
+            // Reset after short delay
+            setTimeout(() => {
+                resetRecordingState();
+            }, 2500);
+        }
+
+        function showRecordingFeedback(msg, type) {
+            const fb = document.getElementById('recordingFeedback');
+            fb.innerText = msg;
+            fb.classList.remove('hidden');
+
+            if (type === 'success') {
+                fb.className = "max-w-xl mx-auto mt-4 p-4 rounded-2xl text-center font-bold text-sm shadow bg-emerald-100 border border-emerald-400 text-emerald-800 animate-bounce";
+            } else {
+                fb.className = "max-w-xl mx-auto mt-4 p-4 rounded-2xl text-center font-bold text-sm shadow bg-red-100 border border-red-400 text-red-800";
+            }
+        }
+
+        /* ================= RENDER AUDIO GALLERY ================= */
+        function renderGallery() {
+            const container = document.getElementById('galleryList');
+            const emptyState = document.getElementById('galleryEmptyState');
+
+            container.innerHTML = '';
+
+            if (APP_STATE.recordings.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+
+            APP_STATE.recordings.forEach(rec => {
+                const card = document.createElement('div');
+                card.className = "bg-slate-50 border-2 border-teal-200 rounded-2xl p-5 shadow-md flex flex-col justify-between space-y-4 hover:border-teal-400 transition";
+                card.innerHTML = `
+                    <div class="space-y-2">
+                        <div class="flex items-start justify-between gap-2">
+                            <span class="text-3xl">🎙️</span>
+                            <span class="bg-teal-100 text-teal-800 text-xs font-bold px-2.5 py-1 rounded-full border border-teal-300">
+                                <i class="fa-solid fa-clock mr-1"></i>${rec.duration}
+                            </span>
+                        </div>
+                        <h4 class="font-bold text-slate-800 text-base leading-snug">${rec.title}</h4>
+                        
+                        <!-- Metadata breakdown -->
+                        <div class="text-xs space-y-1 bg-white p-3 rounded-xl border border-slate-200">
+                            <p><span class="font-semibold text-slate-500">Pair:</span> <strong class="text-sky-900">${rec.pupilName} & ${rec.partnerName}</strong></p>
+                            <p><span class="font-semibold text-slate-500">Class:</span> ${rec.class}</p>
+                            <p><span class="font-semibold text-slate-500">Activity:</span> ${rec.activityName}</p>
+                            <p><span class="font-semibold text-slate-500">Saved Date:</span> ${rec.date}</p>
+                        </div>
+                    </div>
+
+                    <!-- Audio HTML Player -->
+                    <div class="pt-2">
+                        <audio controls class="w-full rounded-lg bg-slate-100">
+                            <source src="${rec.audioUrl}" type="audio/webm">
+                            Your browser does not support audio playback.
+                        </audio>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        /* ================= INITIALIZATION ================= */
+        window.onload = function() {
+            // App initialized
+        };
+    </script>
+</body>
+</html>
